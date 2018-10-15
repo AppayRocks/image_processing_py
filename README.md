@@ -1,6 +1,10 @@
 # image processing using python and OpenCV
 
 
+- screenshot
+
+![Screenshot](uploads/Capture1.PNG)
+
 
 Please follow the below process to setup environment and run the application:
 (Prerequisite: Python 2.7 and pip)
