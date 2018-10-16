@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, request
 import imagepro as imgpro
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -14,12 +15,12 @@ def hello_world():
 @app.route('/upload', methods=['POST'])
 def upload_file():
     file = request.files['image']
-    f = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-    
-    # add your custom code to check that the uploaded file is a valid image and not a malicious file (out-of-scope for this post)
+    filename = secure_filename(file.filename)
+    f = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(f)
-	
-    imgpro.canny_img_pro(f)
+
+    filtered_img = imgpro.canny_img_pro(f)
+    imgpro.save_image('static/' + filename, filtered_img)
     #imgpro.sobel_img_pro(f)
-	
-    return render_template('index.html',uploadedfile="canny01.png", displayFlag=True)
+
+    return render_template('index.html', uploadedfile=filename, displayFlag=True)
